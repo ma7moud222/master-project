@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubscriberController;
 
 // Public routes
 Route::controller(ThemeController::class)->name('theme.')->group(function () {
@@ -11,6 +12,14 @@ Route::controller(ThemeController::class)->name('theme.')->group(function () {
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/singleblog', 'singleblog')->name('singleblog');
 });
+
+Route::post('/subscribe/store', [SubscriberController::class, 'store'])->name('subscriber.store');
+
+
+
+
+
+
 
 // Auth routes
 require __DIR__ . '/auth.php';

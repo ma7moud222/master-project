@@ -27,21 +27,6 @@ class ThemeController extends Controller
         return view('theme.single-blog');
     }
 
-    public function login()
-    {
-        if (Auth::check()) {
-            return redirect()->route('theme.index');
-        }
-        return view('theme.login');
-    }
-
-    public function register()
-    {
-        if (Auth::check()) {
-            return redirect()->route('theme.index');
-        }
-        return view('theme.register');
-    }
 }
 
     
