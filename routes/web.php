@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Route;
@@ -12,8 +13,10 @@ Route::controller(ThemeController::class)->name('theme.')->group(function () {
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/singleblog', 'singleblog')->name('singleblog');
 });
-
+// Subscriber routes
 Route::post('/subscribe/store', [SubscriberController::class, 'store'])->name('subscriber.store');
+// Contact routes
+Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 
 
 
