@@ -1,40 +1,47 @@
  <!-- Start Blog Post Siddebar -->
+ @php
+ use App\Models\Category;
+ $Categories = Category::get();
+ @endphp
  <div class="col-lg-4 sidebar-widgets">
      <div class="widget-wrap">
          <div class="single-sidebar-widget newsletter-widget">
              <h4 class="single-sidebar-widget__title">Newsletter</h4>
              @if (session('status'))
-    <div class="alert alert-success">
-        {{ session('status') }}
-    </div>
-@endif
+             <div class="alert alert-success">
+                 {{ session('status') }}
+             </div>
+             @endif
              <div class="form-group mt-30">
                  <div class="col-autos">
-                    <form action="{{route('subscriber.store')}}" method="post">
-                        @csrf
-                        <input type="text" name="email" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" value="{{old('email')}}" onfocus="this.placeholder = ''"
-                         onblur="this.placeholder = 'Enter email'">
+                     <form action="{{route('subscriber.store')}}" method="post">
+                         @csrf
+                         <input type="text" name="email" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" value="{{old('email')}}" onfocus="this.placeholder = ''"
+                             onblur="this.placeholder = 'Enter email'">
                          @error('email')
                          <span class="text-danger">{{$message}}</span>
                          @enderror
                          <button type="submit" class="bbtns d-block mt-2 w-100">Subcribe</button>
-                        </form>
-                     
+                     </form>
+
                  </div>
              </div>
-             
-         </div>
 
+         </div>
+         @if(count($Categories) > 0)
          <div class="single-sidebar-widget post-category-widget">
              <h4 class="single-sidebar-widget__title">Catgory</h4>
              <ul class="cat-list mt-20">
+                 @foreach($Categories as $category)
                  <li>
                      <a href="#" class="d-flex justify-content-between">
-                         <p>Technology</p>
+                         <p>{{$category->name}}</p>
                          <p>(03)</p>
                      </a>
                  </li>
-                 <li>
+                 @endforeach
+
+                 <!-- <li>
                      <a href="#" class="d-flex justify-content-between">
                          <p>Software</p>
                          <p>(09)</p>
@@ -57,9 +64,12 @@
                          <p>Food</p>
                          <p>(10)</p>
                      </a>
-                 </li>
+                 </li> -->
              </ul>
          </div>
+         @endif
+
+
 
          <div class="single-sidebar-widget popular-post-widget">
              <h4 class="single-sidebar-widget__title">Recent Post</h4>
