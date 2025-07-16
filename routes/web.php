@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Blog;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThemeController;
@@ -9,14 +11,18 @@ use App\Http\Controllers\SubscriberController;
 // Public routes
 Route::controller(ThemeController::class)->name('theme.')->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::get('/category', 'category')->name('category');
+    Route::get('/category/{id}', 'category')->name('category');
     Route::get('/contact', 'contact')->name('contact');
-    Route::get('/singleblog', 'singleblog')->name('singleblog');
+    // Route::get('/singleblog', 'singleblog')->name('singleblog');
 });
 // Subscriber routes
 Route::post('/subscribe/store', [SubscriberController::class, 'store'])->name('subscriber.store');
 // Contact routes
 Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
+// Blog routes
+Route::get('/my-blogs', [BlogController::class, 'myBlogs'])->name('blogs.my-blogs');
+Route::resource('blogs', BlogController::class);
+
 
 
 
