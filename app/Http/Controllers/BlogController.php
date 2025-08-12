@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateBlogRequest;
 use Illuminate\Support\Facades\bootstrap;
 use App\Http\Requests\StoreBlogRequest;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +52,7 @@ class BlogController extends Controller
         $data['user_id'] = Auth::user()->id;
         // create blog
         Blog::create($data);
-        return back()->with('blogCreatestatus', 'Blog created successfully');
+        return back()->with('blogCreateStatus', 'Blog created successfully');
     }
 
     /**
@@ -66,21 +68,54 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        $Categories = Category::get();
-        return view('theme.blogs.edit', compact('Categories', 'blog'));
+        if ($blog->user_id == Auth::user()->id) {
+            $Categories = Category::get();
+            return view('theme.blogs.edit', compact('Categories', 'blog'));
+        }
+        abort(403);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog) {}
+    public function update(UpdateBlogRequest $request, Blog $blog)
+    {
+        if ($blog->user_id == Auth::user()->id) {
+
+            $data = $request->validated();
+
+            if ($request->hasFile('image')) {
+                // image upload
+                //delete old image
+                Storage::delete("public/blogs/{$blog->image}");
+                // get image
+                $image = $request->image;
+                // change it's current name
+                $newimageName = time() . '-' . $image->getClientOriginalName();
+
+                // move image to my project
+                $image->storeAs('blogs', $newimageName, 'public');
+                // save new name to database record
+                $data['image'] = $newimageName;
+            }
+            // create blog
+            $blog->update($data);
+            return back()->with('blogUbdateStatus', 'Blog ubdated successfully');
+        }
+        abort(403);
+    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Blog $blog)
     {
-        //
+        if ($blog->user_id == Auth::user()->id) {
+            Storage::delete("public/blogs/{$blog->image}");
+            $blog->delete();
+            return back()->with('blogDeleteStatus', 'Blog deleted successfully');
+        }
+        abort(403);
     }
 
 

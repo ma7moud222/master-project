@@ -12,9 +12,9 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        @if (session('blogUpdatestatus'))
+        @if (session('blogUbdateStatus'))
         <div class="alert alert-success">
-          {{ session('blogUpdatestatus') }}
+          {{ session('blogUbdateStatus') }}
         </div>
         @endif
         <form action="{{route('blogs.update',['blog'=>$blog])}}" class="form-contact contact_form" method="post" novalidate="novalidate" enctype="multipart/form-data">

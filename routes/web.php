@@ -1,12 +1,15 @@
 <?php
 
 use App\Models\Blog;
+use App\Models\Comment;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubscriberController;
+
 
 // Public routes
 Route::controller(ThemeController::class)->name('theme.')->group(function () {
@@ -23,7 +26,8 @@ Route::post('/contact/store', [ContactController::class, 'store'])->name('contac
 Route::get('/my-blogs', [BlogController::class, 'myBlogs'])->name('blogs.my-blogs');
 Route::resource('blogs', BlogController::class);
 
-
+// Comment routes
+Route::post('/comments/store', [CommentController::class, 'store'])->name('comments.store');
 
 
 
