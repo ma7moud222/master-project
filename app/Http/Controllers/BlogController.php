@@ -14,14 +14,7 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index() {}
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         if (Auth::check()) {
@@ -56,7 +49,7 @@ class BlogController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource. 
      */
     public function show(Blog $blog)
     {
