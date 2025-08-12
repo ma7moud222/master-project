@@ -16,7 +16,6 @@ Route::controller(ThemeController::class)->name('theme.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/category/{id}', 'category')->name('category');
     Route::get('/contact', 'contact')->name('contact');
-    // Route::get('/singleblog', 'singleblog')->name('singleblog');
 });
 // Subscriber routes
 Route::post('/subscribe/store', [SubscriberController::class, 'store'])->name('subscriber.store');
@@ -24,26 +23,13 @@ Route::post('/subscribe/store', [SubscriberController::class, 'store'])->name('s
 Route::post('/contact/store', [ContactController::class, 'store'])->name('contact.store');
 // Blog routes
 Route::get('/my-blogs', [BlogController::class, 'myBlogs'])->name('blogs.my-blogs');
-Route::resource('blogs', BlogController::class);
+Route::resource('blogs', BlogController::class)->except('index');
 
 // Comment routes
 Route::post('/comments/store', [CommentController::class, 'store'])->name('comments.store');
-
-
-
-
 
 
 // Auth routes
 require __DIR__ . '/auth.php';
 
 // Protected routes
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
