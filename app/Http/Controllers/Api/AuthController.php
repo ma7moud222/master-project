@@ -6,8 +6,13 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AuthController extends Controller
+class AuthApiController extends Controller
 {
+    public function test()
+    {
+        return response()->json(['message' => 'Test successful']);
+    }
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
@@ -23,6 +28,23 @@ class AuthController extends Controller
             'expires_in'   => JWTAuth::factory()->getTTL() * 60,
             'user'         => auth('api')->user(),
         ]);
+    }
+    public function register(LoginRequest $request)
+    {
+        // هنا يمكنك إضافة منطق التسجيل إذا كنت تريد
+        $user = \App\Models\User::create([
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+
+        $token = auth('api')->login($user);
+
+        return response()->json([
+            'access_token' => $token,
+            'expires_in'   => JWTAuth::factory()->getTTL() * 60,
+            'user'         => $user,
+        ]);
+        return response()->json(['message' => 'Registration not implemented'], 501);
     }
 
     public function refresh()
